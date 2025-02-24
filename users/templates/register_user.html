@@ -1,0 +1,87 @@
+<!-- register_user.html -->
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-5">Register</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_first_name">First Name</label>
+            {{ form.first_name }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_second_name">Second Name</label>
+            {{ form.second_name }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            {{ form.email }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_telephone">Telephone</label>
+            {{ form.telephone }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password">Password</label>
+            {{ form.password }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_user_type">Register As</label>
+            {{ form.user_type }}
+        </div>
+
+        <div class="form-group" id="student-fields" style="display:none;">
+            <label for="session">Session</label>
+            <select name="session" id="session">
+                <option value="DAY" {% if form.session.value == 'DAY' %} selected {% endif %}>Day</option>
+                <option value="EVENING" {% if form.session.value == 'EVENING' %} selected {% endif %}>Evening</option>
+                <option value="WEEKEND" {% if form.session.value == 'WEEKEND' %} selected {% endif %}>Weekend</option>
+            </select>
+        </div>
+        <div class="form-group" id="student-fields" style="display:none;">
+            <label for="id_student_id">Student ID</label>
+            {{ form.student_id }}
+        </div>
+
+        <div class="form-group" id="student-fields" style="display:none;">
+            <label for="id_fingerprint">Fingerprint</label>
+            {{ form.fingerprint }}
+        </div>
+
+        <div class="form-group" id="admin-fields" style="display:none;">
+            <label for="id_is_head_of_faculty">Is Head of Faculty</label>
+            {{ form.is_head_of_faculty }}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+    </form>
+</div>
+
+<!-- JavaScript to toggle fields based on user type -->
+<script>
+    document.getElementById('id_user_type').addEventListener('change', function () {
+        const userType = this.value;
+        const studentFields = document.querySelectorAll('#student-fields');
+        const adminFields = document.querySelectorAll('#admin-fields');
+
+        if (userType === 'student') {
+            studentFields.forEach(field => field.style.display = 'block');
+            adminFields.forEach(field => field.style.display = 'none');
+        } else if (userType === 'admin') {
+            studentFields.forEach(field => field.style.display = 'none');
+            adminFields.forEach(field => field.style.display = 'block');
+        }
+    });
+
+    // Trigger change to show correct fields on page load
+    document.getElementById('id_user_type').dispatchEvent(new Event('change'));
+</script>
+
+{% endblock %}
