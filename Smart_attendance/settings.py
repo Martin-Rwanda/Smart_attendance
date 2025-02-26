@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'users.middleware.UserTypeMiddleware',
 ]
 
 ROOT_URLCONF = 'Smart_attendance.urls'
@@ -126,3 +127,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ##added 
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailBackend',  
+    'django.contrib.auth.backends.ModelBackend',
+    ]
+
+AUTH_USER_MODEL = 'users.BaseUser'
