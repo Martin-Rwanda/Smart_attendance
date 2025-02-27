@@ -1,0 +1,63 @@
+{% load static %}
+
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <div class="logo-header" data-background-color="dark">
+            <h1 style="color: aliceblue;">Admin Portal</h1>
+            <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                    <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                    <i class="gg-menu-left"></i>
+                </button>
+            </div>
+            <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="sidebar-wrapper ">
+        <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+                <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                    <a href="{% url 'admin_dashboard'%}">
+                        <i class="fas fa-th-list"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'student_record' %}active{% endif %}">
+                    <a href="{% url 'student_records' %}">
+                        <i class="fas fa-user"></i>
+                        <p>Student Record</p>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'attendance_record' %}active{% endif %}">
+                    <a href="">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Attendance Record</p>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'sessions' %}active{% endif %}">
+                    <a href="">
+                        <i class="fas fa-wallet"></i>
+                        <p>Sessions</p>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'behaviors' %}active{% endif %}">
+                    <a href="">
+                        <i class="fas fa-users"></i>
+                        <p>Behaviors</p>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'modules' %}active{% endif %}">
+                    <a href="">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <p>Modules</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>

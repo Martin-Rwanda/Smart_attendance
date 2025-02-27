@@ -1,0 +1,63 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- HEADER / LINKS /  BASIC SCRIPTS -->
+  {% block header %}
+  {% endblock %}
+  <!-- END HEADER / LINKS /  BASIC SCRIPTS -->
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      {% block sidebar %}
+      {% endblock %}
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <!-- NAV BAR AND LOGO DIV -->
+        {% block navbar %}
+        {% endblock %}
+        <!-- END NAV BAR AND LOGO DIV -->
+
+        <div class="container">
+          <div class="page-inner">
+            
+          <div class="page-header">
+              <h3 class="fw-bold mb-3"></h3>
+              <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                  <a href="#">
+                    <i class="icon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#"></a>
+                </li>
+                <li class="separator">
+                  <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          {% block content %}
+  
+          {% endblock content %}
+        </div>
+
+        {% block footer %}
+        {% endblock %}
+      </div>
+    </div>
+    {% block script %}
+    {% endblock %}
+  </body>
+
+</html>

@@ -1,0 +1,72 @@
+<!-- templates/admin/admin_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block header %}
+    {% include 'partials/admin/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/admin/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/admin/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Student Records</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Second Name</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Student ID</th>
+                <th>Session</th>
+                <th>Fingerprint</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in page_obj %}
+            <tr>
+                <td>{{ student.first_name }}</td>
+                <td>{{ student.second_name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.telephone }}</td>
+                <td>{{ student.student_id }}</td>
+                <td>{{ student.session }}</td>
+                <td>{{ student.fingerprint }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/admin/footer.html' %}
+{% endblock %}

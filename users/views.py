@@ -7,6 +7,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .forms import CombinedRegistrationForm
 from .utils import is_admin, is_student, get_appropriate_redirect
+from django.core.paginator import Paginator
+
 
 
 def logout_user(request):
@@ -114,7 +116,7 @@ def admin_dashboard(request):
         'admin': Admin.objects.get(email=user.email),
         # Add more context data as needed
     }
-    return render(request, 'admin_dashboard.html', context)
+    return render(request, 'admin_dash/admin_dashboard.html', context)
 
 @login_required
 def student_dashboard(request):
@@ -127,4 +129,12 @@ def student_dashboard(request):
         'student': Student.objects.get(email=user.email),
         # Add more context data as needed
     }
-    return render(request, 'student_dashboard.html', context)
+    return render(request, 'student_dash/student_dashboard.html', context)
+
+@login_required
+def student_records(request):
+    students = Student.objects.all()
+    paginator = Paginator(students, 10)  # Show 10 students per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'admin_dash/studentrec.html', {'page_obj': page_obj})

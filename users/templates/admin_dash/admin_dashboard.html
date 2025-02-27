@@ -1,0 +1,35 @@
+<!-- templates/admin/admin_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block header %}
+    {% include 'partials/admin/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/admin/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/admin/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    
+<h1>
+    hello this is dashboard
+</h1>
+
+
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/admin/footer.html' %}
+{% endblock %}
+
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}

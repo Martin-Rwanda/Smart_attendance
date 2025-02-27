@@ -1,0 +1,164 @@
+.navbar {
+    background-color: #343a40; /* Dark background */
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+    margin: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffc107 !important; /* Yellow on hover */
+}
+.container {
+    text-align: center;
+}
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #666;
+}
+.btn-primary {
+    background-color: #00ffaa;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+/* General Styles */
+
+
+
+h2 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+form{
+
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label { 
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #495057;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+/* Button Styles */
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Link Styles */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Conditional Fields */
+#student-fields,
+#admin-fields {
+    margin-top: 15px;
+}
+
+/* Checkbox Styles */
+.form-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        font-size: 14px;
+    }
+}
+

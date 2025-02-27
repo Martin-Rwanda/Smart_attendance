@@ -26,3 +26,6 @@ def get_appropriate_redirect(user):
         return 'student_dashboard'
     else:
         return 'landing_page'
+    
+
+    
