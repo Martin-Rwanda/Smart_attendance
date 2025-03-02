@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Seat Activity List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Class Session</th>
+            <th>Left Seat Time</th>
+            <th>Returned Seat Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for seatactivity in seatactivities %}
+        <tr>
+            <td>{{ seatactivity.student }}</td>
+            <td>{{ seatactivity.class_session }}</td>
+            <td>{{ seatactivity.left_seat_time }}</td>
+            <td>{{ seatactivity.returned_seat_time }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,37 @@
+
+<!-- templates/admin/admin_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block header %}
+    {% include 'partials/admin/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/admin/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/admin/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<h2>Create Classroom</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'partials/admin/footer.html' %}
+{% endblock %}
+
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}

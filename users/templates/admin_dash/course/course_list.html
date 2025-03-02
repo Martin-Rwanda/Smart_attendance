@@ -1,0 +1,55 @@
+
+
+<!-- templates/admin/admin_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block header %}
+    {% include 'partials/admin/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/admin/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/admin/sidebar.html' %}
+{% endblock %}
+<a   class="btn btn-primary" href="{% url 'course_create' %}">
+    <i class="fas fa-home"></i>
+    <p>add Modules</p>
+</a>
+{% block content %}
+<h2>Course List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Sessions Offered</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.name }}</td>
+            <td>{{ course.code }}</td>
+            <td>{{ course.description }}</td>
+            <td>{{ course.sessions_offered }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'partials/admin/footer.html' %}
+{% endblock %}
+
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}

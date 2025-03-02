@@ -1,0 +1,58 @@
+
+<!-- templates/admin/admin_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block header %}
+    {% include 'partials/admin/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/admin/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/admin/sidebar.html' %}
+{% endblock %}
+
+
+{% block content %}
+<a href="{% url 'classroom_create' %}">
+    <i class="fas fa-users"></i>
+    <p>Classrooms</p>
+</a>
+</li>
+<h2>Classroom List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Building</th>
+            <th>Floor</th>
+            <th>Room Number</th>
+            <th>Capacity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for classroom in classrooms %}
+        <tr>
+            <td>{{ classroom.name }}</td>
+            <td>{{ classroom.building }}</td>
+            <td>{{ classroom.floor }}</td>
+            <td>{{ classroom.room_number }}</td>
+            <td>{{ classroom.capacity }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/admin/footer.html' %}
+{% endblock %}
+
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}

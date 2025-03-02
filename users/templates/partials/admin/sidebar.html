@@ -40,19 +40,19 @@
                     </a>
                 </li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'sessions' %}active{% endif %}">
-                    <a href="">
+                    <a href="{% url 'classsession_list' %}">
                         <i class="fas fa-wallet"></i>
                         <p>Sessions</p>
                     </a>
                 </li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'behaviors' %}active{% endif %}">
-                    <a href="">
+                    <a href="{% url 'classroom_list' %}">
                         <i class="fas fa-users"></i>
-                        <p>Behaviors</p>
+                        <p>Classrooms</p>
                     </a>
                 </li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'modules' %}active{% endif %}">
-                    <a href="">
+                    <a href="{% url 'course_list' %}">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <p>Modules</p>
                     </a>

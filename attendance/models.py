@@ -71,7 +71,7 @@ class SeatActivity(models.Model):
     Model to track when a student leaves their seat during class
     Connected to chair sensors
     """
-    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    student = models.ForeignKey('users.Student', on_delete=models.CASCADE)
     class_session = models.ForeignKey(ClassSession, on_delete=models.CASCADE)
     
     # When student left their seat
@@ -101,7 +101,7 @@ class Attendance(models.Model):
     """
     Model to track student attendance using fingerprint and seat sensors
     """
-    student = models.ForeignKey('Student', on_delete=models.CASCADE, related_name="attendances")
+    student = models.ForeignKey('users.Student', on_delete=models.CASCADE, related_name="attendances")
     class_session = models.ForeignKey(ClassSession, on_delete=models.CASCADE, related_name="attendances")
     
     # Track when the student entered the classroom

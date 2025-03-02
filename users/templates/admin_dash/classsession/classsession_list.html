@@ -1,0 +1,61 @@
+
+<!-- templates/admin/admin_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block header %}
+    {% include 'partials/admin/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/admin/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/admin/sidebar.html' %}
+{% endblock %}
+
+
+{% block content %}
+
+<a class="btn btn-primary" href="{% url 'classsession_create' %}">
+    <i class="fas fa-user"></i>
+    <p>create class session</p>
+</a>
+<h2>Class Session List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Course</th>
+            <th>Classroom</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Session Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for classsession in classsessions %}
+        <tr>
+            <td>{{ classsession.course }}</td>
+            <td>{{ classsession.classroom }}</td>
+            <td>{{ classsession.date }}</td>
+            <td>{{ classsession.start_time }}</td>
+            <td>{{ classsession.end_time }}</td>
+            <td>{{ classsession.get_session_type_display }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+
+{% block footer %}
+    {% include 'partials/admin/footer.html' %}
+{% endblock %}
+
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}
