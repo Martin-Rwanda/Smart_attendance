@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CombinedRegistrationForm
 from .utils import is_admin, is_student, get_appropriate_redirect
 from django.core.paginator import Paginator
-
+from django.contrib import messages 
 
 
 def logout_user(request):
@@ -20,72 +20,14 @@ def register_user(request):
         form = CombinedRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Or redirect as needed
+            return redirect('login')  
     else:
         form = CombinedRegistrationForm()
 
     return render(request, 'register_user.html', {'form': form})
-
-
-# def login_user(request):
-#     if request.method == 'POST':
-#         email = request.POST['email']
-#         password = request.POST['password']
-#         user = authenticate(request, email=email, password=password)
-#         if user is not None:
-#             login(request, user)
-            
-#             # Check user type by querying your models
-#             try:
-#                 # Check if user is an Admin
-#                 admin = Admin.objects.get(email=user.email)
-#                 return redirect('admin_dashboard')
-#             except Admin.DoesNotExist:
-#                 try:
-#                     # Check if user is a Student
-#                     student = Student.objects.get(email=user.email) 
-#                     return redirect('student_dashboard')
-#                 except Student.DoesNotExist:
-#                     # If neither Admin nor Student (should not happen with your setup)
-#                     return redirect('landing_page')
-#         else:
-#             # Authentication failed
-#             # Add an error message here if you want
-#             pass
-            
-#     form = CombinedRegistrationForm()       
-#     return render(request, 'login.html', {'form': form})
-
 def landing_page(request):
     return render(request, 'landing_page.html')
 
-# @login_required
-# def admin_dashboard(request):
-#     user = request.user
-#     # Check if the logged-in user exists in the Admin model
-#     try:
-#         admin = Admin.objects.get(email=user.email)
-#     except admin.DoesNotExist:
-#         # Not an admin, redirect to login
-#         return redirect('login')
-#     users = BaseUser.objects.all()
-#     return render(request, 'admin_dashboard.html', {
-#         'user': users,
-#     })
-
-# @login_required
-# def student_dashboard(request):
-#     user = request.user
-#     # Check if the logged-in user exists in the Student model
-#     try:
-#         student = Student.objects.get(email=user.email)
-#     except student.DoesNotExist:
-#         # Not a student, redirect to login
-#         return redirect('login')
-#     users = BaseUser.objects.all()
-#     return render(request, 'student_dashboard.html', {
-#         'user': users,
-#     })
 
 
 def login_user(request):
@@ -99,7 +41,6 @@ def login_user(request):
             # Redirect based on user type
             return redirect(get_appropriate_redirect(user))
         else:
-            # Optional: Add error message for failed login
             messages.error(request, 'Invalid email or password.')
             
     form = CombinedRegistrationForm()       
@@ -108,15 +49,20 @@ def login_user(request):
 @login_required
 def admin_dashboard(request):
     user = request.user
+    students = Student.objects.all()
+    paginator = Paginator(students, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     if not is_admin(user):
         return redirect('login')  # Redirect if the user is not an admin
     
-    # Your admin dashboard logic here
-    context = {
-        'admin': Admin.objects.get(email=user.email),
-        # Add more context data as needed
-    }
-    return render(request, 'admin_dash/admin_dashboard.html', context)
+    
+    # context = {
+    #     'admin': Admin.objects.get(email=user.email),
+    #     # Add more context data as needed
+        
+    # }
+    return render(request, 'admin_dash/admin_dashboard.html', {'page_obj': page_obj})
 
 @login_required
 def student_dashboard(request):
@@ -134,7 +80,7 @@ def student_dashboard(request):
 @login_required
 def student_records(request):
     students = Student.objects.all()
-    paginator = Paginator(students, 10)  # Show 10 students per page
+    paginator = Paginator(students, 10) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'admin_dash/studentrec.html', {'page_obj': page_obj})

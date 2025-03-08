@@ -16,11 +16,12 @@
 {% block sidebar %}
     {% include 'partials/admin/sidebar.html' %}
 {% endblock %}
+
+{% block content %}
 <a   class="btn btn-primary" href="{% url 'course_create' %}">
     <i class="fas fa-home"></i>
     <p>add Modules</p>
 </a>
-{% block content %}
 <h2>Course List</h2>
 <table class="table">
     <thead>

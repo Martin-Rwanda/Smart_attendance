@@ -2,8 +2,24 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
+<body>
+<style>
+    body{
+        background-image: linear-gradient(90deg ,rgba(0, 0, 0, 0.466),rgba(34, 25, 25, 0.5)),url(/static/img/biometric.avif);
+        background-attachment: fixed;
+        background-size:cover ;
+        height: 100vh;
+    }
+    form{
+        background-color: rgba(255, 255, 255, 0.137);
+        backdrop-filter: blur(10px);
+    }
+    .form-group label{
+        color: rgb(255, 255, 255);
+    }
+</style>
 <div class="container">
-    <h2 class="text-center my-5">Register</h2>
+    <h2 class="text-center my-5 text-white">Register</h2>
 
     <form method="POST">
         {% csrf_token %}
@@ -66,7 +82,7 @@
         </div>
     </form>
 </div>
-
+</body>
 <!-- JavaScript to toggle fields based on user type -->
 <script>
     document.getElementById('id_user_type').addEventListener('change', function () {

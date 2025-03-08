@@ -127,7 +127,9 @@ a {
 a:hover {
     text-decoration: underline;
 }
-
+body{
+    background-image: linear-gradient(black,rgb(255, 0, 0));
+}
 /* Conditional Fields */
 #student-fields,
 #admin-fields {

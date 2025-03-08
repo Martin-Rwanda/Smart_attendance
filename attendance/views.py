@@ -7,7 +7,7 @@ def classroom_create(request):
         form = ClassroomForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('admin_dash/classroom/classroom_list')
+            return redirect('classroom_list')
     else:
         form = ClassroomForm()
     return render(request, 'admin_dash/classroom/classroom_form.html', {'form': form})
@@ -21,7 +21,7 @@ def course_create(request):
         form = CourseForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('admin_dash/course/course_list')
+            return redirect('course_list')
     else:
         form = CourseForm()
     return render(request, 'admin_dash/course/course_form.html', {'form': form})
@@ -35,7 +35,7 @@ def classsession_create(request):
         form = ClassSessionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('admin_dash/classsession/classsession_list')
+            return redirect('classsession_list')
     else:
         form = ClassSessionForm()
     return render(request, 'admin_dash/classsession/classsession_form.html', {'form': form})
