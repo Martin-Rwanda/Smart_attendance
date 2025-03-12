@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 
-from users.models import Student
+from users.models import Student, LectureUser  
 
 class Classroom(models.Model):
     """Model to represent a physical classroom"""
@@ -28,6 +28,7 @@ class Course(models.Model):
         ('WEEKEND', 'Weekend'),
     ]
     sessions_offered = models.CharField(max_length=100)  # Store as comma-separated values
+    lectureuser = models.ForeignKey(LectureUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='courses')  # Add this field
     
     def get_sessions_list(self):
         """Return the sessions offered as a list"""

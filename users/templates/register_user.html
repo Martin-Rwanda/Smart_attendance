@@ -4,17 +4,19 @@
 {% block content %}
 <body>
 <style>
-    body{
-        background-image: linear-gradient(90deg ,rgba(0, 0, 0, 0.466),rgba(34, 25, 25, 0.5)),url(/static/img/biometric.avif);
+    body {
+        background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.466), rgba(34, 25, 25, 0.5)), url(/static/img/biometric.avif);
         background-attachment: fixed;
-        background-size:cover ;
+        background-size: cover;
         height: 100vh;
     }
-    form{
+
+    form {
         background-color: rgba(255, 255, 255, 0.137);
         backdrop-filter: blur(10px);
     }
-    .form-group label{
+
+    .form-group label {
         color: rgb(255, 255, 255);
     }
 </style>
@@ -27,7 +29,7 @@
             <label for="id_first_name">First Name</label>
             {{ form.first_name }}
         </div>
-        
+
         <div class="form-group">
             <label for="id_second_name">Second Name</label>
             {{ form.second_name }}
@@ -53,6 +55,7 @@
             {{ form.user_type }}
         </div>
 
+        <!-- Student-specific fields -->
         <div class="form-group" id="student-fields" style="display:none;">
             <label for="session">Session</label>
             <select name="session" id="session">
@@ -71,31 +74,46 @@
             {{ form.fingerprint }}
         </div>
 
+        <!-- Admin-specific fields -->
         <div class="form-group" id="admin-fields" style="display:none;">
             <label for="id_is_head_of_faculty">Is Head of Faculty</label>
             {{ form.is_head_of_faculty }}
         </div>
 
+        <!-- LectureUser-specific fields -->
+        <div class="form-group" id="lectureuser-fields" style="display:none;">
+            <label for="id_department">Department</label>
+            {{ form.department }}
+        </div>
+
         <button type="submit" class="btn btn-primary btn-block">Register</button>
         <div class="text-center mt-4">
-            <p>already have an account <a href="{% url 'login' %}">Login</a></p>
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
         </div>
     </form>
 </div>
 </body>
+
 <!-- JavaScript to toggle fields based on user type -->
 <script>
     document.getElementById('id_user_type').addEventListener('change', function () {
         const userType = this.value;
         const studentFields = document.querySelectorAll('#student-fields');
         const adminFields = document.querySelectorAll('#admin-fields');
+        const lectureuserFields = document.querySelectorAll('#lectureuser-fields');
 
         if (userType === 'student') {
             studentFields.forEach(field => field.style.display = 'block');
             adminFields.forEach(field => field.style.display = 'none');
+            lectureuserFields.forEach(field => field.style.display = 'none');
         } else if (userType === 'admin') {
             studentFields.forEach(field => field.style.display = 'none');
             adminFields.forEach(field => field.style.display = 'block');
+            lectureuserFields.forEach(field => field.style.display = 'none');
+        } else if (userType === 'lectureuser') {
+            studentFields.forEach(field => field.style.display = 'none');
+            adminFields.forEach(field => field.style.display = 'none');
+            lectureuserFields.forEach(field => field.style.display = 'block');
         }
     });
 

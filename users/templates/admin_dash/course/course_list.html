@@ -1,6 +1,3 @@
-
-
-<!-- templates/admin/admin_dashboard.html -->
 {% extends 'base.html' %}
 
 {% block title %}Admin Dashboard{% endblock %}
@@ -18,9 +15,9 @@
 {% endblock %}
 
 {% block content %}
-<a   class="btn btn-primary" href="{% url 'course_create' %}">
+<a class="btn btn-primary" href="{% url 'course_create' %}">
     <i class="fas fa-home"></i>
-    <p>add Modules</p>
+    <p>Add Modules</p>
 </a>
 <h2>Course List</h2>
 <table class="table">
@@ -30,6 +27,7 @@
             <th>Code</th>
             <th>Description</th>
             <th>Sessions Offered</th>
+            <th>Lecture User</th> <!-- Add this column -->
         </tr>
     </thead>
     <tbody>
@@ -39,17 +37,16 @@
             <td>{{ course.code }}</td>
             <td>{{ course.description }}</td>
             <td>{{ course.sessions_offered }}</td>
+            <td>{{ course.lectureuser }}</td> <!-- Display LectureUser -->
         </tr>
         {% endfor %}
     </tbody>
 </table>
 {% endblock %}
 
-
 {% block footer %}
     {% include 'partials/admin/footer.html' %}
 {% endblock %}
-
 
 {% block script %}
     {% include 'partials/scripts.html' %}

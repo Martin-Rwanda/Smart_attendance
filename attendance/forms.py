@@ -1,6 +1,6 @@
 from django import forms
 from .models import Classroom, Course, ClassSession, SeatActivity, Attendance
-from users.models import Student
+from users.models import Student, LectureUser 
 from django.utils import timezone
 
 class ClassroomForm(forms.ModelForm):
@@ -18,13 +18,18 @@ class ClassroomForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['name', 'code', 'description', 'sessions_offered']
+        fields = ['name', 'code', 'description', 'sessions_offered', 'lectureuser']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'code': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'sessions_offered': forms.TextInput(attrs={'class': 'form-control'}),
+            'lectureuser': forms.Select(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['lectureuser'].label_from_instance = lambda obj: f"{obj.first_name} {obj.second_name}"
 
 class ClassSessionForm(forms.ModelForm):
     class Meta:

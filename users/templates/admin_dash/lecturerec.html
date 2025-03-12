@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Lecture Records{% endblock %}
+
+{% block header %}
+    {% include 'partials/admin/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/admin/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/admin/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Lecture Records</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Second Name</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lectureuser in page_obj %}
+            <tr>
+                <td>{{ lectureuser.first_name }}</td>
+                <td>{{ lectureuser.second_name }}</td>
+                <td>{{ lectureuser.email }}</td>
+                <td>{{ lectureuser.telephone }}</td>
+                <td>{{ lectureuser.department }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/admin/footer.html' %}
+{% endblock %}

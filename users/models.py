@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create a custom user manager to handle user creation
@@ -21,7 +18,7 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
-# Base user model for both Admin and Student
+# Base user model for both Admin, Student, and LectureUser
 class BaseUser(AbstractBaseUser):
     first_name = models.CharField(max_length=100)
     second_name = models.CharField(max_length=100)
@@ -57,3 +54,11 @@ class Student(BaseUser):
 
     def __str__(self):
         return f'Student: {self.first_name} {self.second_name}, Session: {self.session}, ID: {self.student_id}'
+
+# LectureUser model extending BaseUser
+class LectureUser(BaseUser):
+    department = models.CharField(max_length=100)  # Department the lecture user belongs to
+    is_lecturer = models.BooleanField(default=True)  # Whether the user is a lecturer
+
+    def __str__(self):
+        return f'Lecture User: {self.first_name} {self.second_name}, Department: {self.department}'

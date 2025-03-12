@@ -21,16 +21,22 @@
     <div class="sidebar-wrapper ">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
                     <a href="{% url 'admin_dashboard'%}">
                         <i class="fas fa-th-list"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'student_record' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.url_name == 'student_records' %}active{% endif %}">
                     <a href="{% url 'student_records' %}">
                         <i class="fas fa-user"></i>
                         <p>Student Record</p>
+                    </a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'lecture_records' %}active{% endif %}">
+                    <a href="{% url 'lecture_records' %}">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <p>Lecture Records</p>
                     </a>
                 </li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'attendance_record' %}active{% endif %}">
@@ -39,7 +45,7 @@
                         <p>Attendance Record</p>
                     </a>
                 </li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'sessions' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.url_name == 'classsession_list' %}active{% endif %}">
                     <a href="{% url 'classsession_list' %}">
                         <i class="fas fa-wallet"></i>
                         <p>Sessions</p>
@@ -51,7 +57,7 @@
                         <p>Classrooms</p>
                     </a>
                 </li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'modules' %}active{% endif %}">
+                <li class="nav-item {% if request.resolver_match.url_name == 'course_list' %}active{% endif %}">
                     <a href="{% url 'course_list' %}">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <p>Modules</p>
