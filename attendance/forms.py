@@ -15,7 +15,22 @@ class ClassroomForm(forms.ModelForm):
             'capacity': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
+
 class CourseForm(forms.ModelForm):
+    # Define session choices for sessions_offered
+    SESSION_CHOICES = [
+        ('DAY', 'Day'),
+        ('EVENING', 'Evening'),
+        ('WEEKEND', 'Weekend'),
+    ]
+
+    # Update sessions_offered to use ChoiceField
+    sessions_offered = forms.ChoiceField(
+        choices=SESSION_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        required=True,
+    )
+
     class Meta:
         model = Course
         fields = ['name', 'code', 'description', 'sessions_offered', 'lectureuser']
@@ -23,7 +38,6 @@ class CourseForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'code': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'sessions_offered': forms.TextInput(attrs={'class': 'form-control'}),
             'lectureuser': forms.Select(attrs={'class': 'form-control'}),
         }
 
