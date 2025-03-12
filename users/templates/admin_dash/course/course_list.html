@@ -28,7 +28,6 @@
             <th>Description</th>
             <th>Sessions Offered</th>
             <th>Lecture</th>
-            <th>Department</th> 
         </tr>
     </thead>
     <tbody>
@@ -39,7 +38,6 @@
             <td>{{ course.description }}</td>
             <td>{{ course.sessions_offered }}</td>
             <td>{{ course.lectureuser.first_name }} {{ course.lectureuser.second_name }}</td> <!-- Display Lecture User's name -->
-            <td>{{ course.lectureuser.department }}</td> <!-- Display Lecture User's department -->
         </tr>
         {% endfor %}
     </tbody>
