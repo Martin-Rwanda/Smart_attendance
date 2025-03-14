@@ -10,6 +10,8 @@ urlpatterns = [
     path('', views.classsession_list, name='classsession_list'),
     path('seatactivity/create/', views.seatactivity_create, name='seatactivity_create'),
     path('seatactivity/list/', views.seatactivity_list, name='seatactivity_list'),
+    path('module/register/', views.module_register, name='module_register'),
+    path('module/modules/', views.modules, name='modules'),
     # path('attendance/create/', views.attendance_create, name='attendance_create'),
     # path('attendance/list/', views.attendance_list, name='attendance_list'),
 ]

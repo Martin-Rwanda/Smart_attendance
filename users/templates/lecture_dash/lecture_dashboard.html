@@ -1,7 +1,6 @@
-<!-- templates/student/student_dashboard.html -->
 {% extends 'base.html' %}
 
-{% block title %}Lecture Dashboard{% endblock %}
+{% block title %}Lecturer Dashboard{% endblock %}
 
 {% block header %}
     {% include 'partials/lecture/header.html' %}
@@ -16,13 +15,41 @@
 {% endblock %}
 
 {% block content %}
-   
+<h2>Your Courses</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Sessions Offered</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.name }}</td>
+            <td>{{ course.code }}</td>
+            <td>{{ course.description }}</td>
+            <td>{{ course.sessions_offered }}</td>
+            <td>
+                <!-- Add the "View Students" link here -->
+                <a href="{% url 'registered_students' course.id %}" class="btn btn-info btn-sm">View Students</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">No courses assigned yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
 
 {% block footer %}
     {% include 'partials/lecture/footer.html' %}
 {% endblock %}
-
 
 {% block script %}
     {% include 'partials/scripts.html' %}

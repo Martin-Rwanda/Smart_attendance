@@ -21,18 +21,18 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-                    <a href="">
+                <li class="nav-item {% if request.resolver_match.url_name == 'lectureuser_dashboard' %}active{% endif %}">
+                    <a href="{% url 'lectureuser_dashboard' %}">
                         <i class="fas fa-th-list"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'attendance_record' %}active{% endif %}">
-                    <a href="">
-                        <i class="fas fa-chart-line"></i>
-                        <p>Attendance Record</p>
-                    </a>
-                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'all_registered_students' %}active{% endif %}">
+                        <a href="{% url 'all_registered_students' %}">
+                            <i class="fas fa-users"></i>
+                            <p>All Registered Students</p>
+                        </a>
+                    </li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'modules' %}active{% endif %}">
                     <a href="">
                         <i class="fas fa-chalkboard-teacher"></i>

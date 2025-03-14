@@ -1,6 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect , get_object_or_404
 from .forms import ClassroomForm, CourseForm, ClassSessionForm, SeatActivityForm, AttendanceForm
-from .models import Classroom, Course, ClassSession, SeatActivity, Attendance
+from .models import Classroom, Course, ClassSession, SeatActivity, Attendance 
+from django.contrib import messages
+from .models import ModuleRegistration
+from users.models import Student
+from django.contrib.auth.decorators import login_required 
 
 def classroom_create(request):
     if request.method == 'POST':
@@ -57,6 +61,63 @@ def seatactivity_create(request):
 def seatactivity_list(request):
     seatactivities = SeatActivity.objects.all()
     return render(request, 'admin_dash/seatactivity/seatactivity_list.html', {'seatactivities': seatactivities})
+
+
+def module_register(request):
+    # Fetch the logged-in student
+    student = request.user.student 
+
+    # Fetch all courses that match the student's session
+    available_courses = Course.objects.filter(sessions_offered__contains=student.session)
+
+    # Handle registration/rejection request
+    if request.method == 'POST':
+        course_id = request.POST.get('course_id')
+        action = request.POST.get('action') 
+
+        if course_id and action:
+            course = Course.objects.get(id=course_id)
+
+            if action == 'register':
+                ModuleRegistration.objects.create(student=student, course=course)
+                messages.success(request, f'Successfully registered for {course.name}!')
+            elif action == 'reject':
+                ModuleRegistration.objects.create(student=student, course=course, is_rejected=True)
+                messages.success(request, f'Successfully rejected {course.name}.')
+
+    # Fetch the student's registered and rejected modules
+    registered_modules = ModuleRegistration.objects.filter(student=student, is_rejected=False).select_related('course')
+    rejected_modules = ModuleRegistration.objects.filter(student=student, is_rejected=True)
+
+    # Exclude registered and rejected modules from the available courses
+    available_courses = available_courses.exclude(
+        id__in=registered_modules.values_list('course_id', flat=True)
+    ).exclude(
+        id__in=rejected_modules.values_list('course_id', flat=True)
+    )
+
+    return render(request, 'student_dash/modules/register.html', {
+        'available_courses': available_courses,
+        'registered_modules': registered_modules,
+    })
+
+
+def modules(request):
+    # Fetch the logged-in student
+    student = request.user.student 
+
+    # Fetch all courses that match the student's session
+    available_courses = Course.objects.filter(sessions_offered__contains=student.session)        
+
+    # Fetch the student's registered and rejected modules
+    registered_modules = ModuleRegistration.objects.filter(student=student, is_rejected=False).select_related('course')
+
+    return render(request, 'student_dash/modules/modules.html', {
+        'available_courses': available_courses,
+        'registered_modules': registered_modules,
+    })
+
+
 
 # def attendance_create(request):
 #     if request.method == 'POST':

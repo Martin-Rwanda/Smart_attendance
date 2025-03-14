@@ -11,4 +11,8 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('student-records/', views.student_records, name='student_records'),
     path('lecture-records/', views.lecture_records, name='lecture_records'),
+    path('lecturer/dashboard/', views.lectureuser_dashboard, name='lectureuser_dashboard'),
+    path('lecturer/course/<int:course_id>/students/', views.registered_students, name='registered_students'),
+    path('lecturer/all-students/', views.all_registered_students, name='all_registered_students'),
+
 ]

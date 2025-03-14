@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 
+from users.models import Student
 from users.models import Student, LectureUser  
 
 class Classroom(models.Model):
@@ -247,3 +248,16 @@ def process_fingerprint_scan(fingerprint_data, classroom_id):
         return None, "Fingerprint not recognized"
     except Exception as e:
         return None, f"Error: {str(e)}"
+    
+
+
+class ModuleRegistration(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='module_registrations')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='module_registrations')
+    is_rejected = models.BooleanField(default=False)  # To track if the student rejected the module
+
+    class Meta:
+        unique_together = ['student', 'course']  
+
+    def __str__(self):
+        return f"{self.student} - {self.course}"

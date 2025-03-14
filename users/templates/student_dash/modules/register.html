@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Modules Registration{% endblock %}
+
+{% block header %}
+    {% include 'partials/student/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/student/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/student/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<h2>Available Modules</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Sessions Offered</th>
+            <th>Lecture</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in available_courses %}
+        <tr>
+            <td>{{ course.name }}</td>
+            <td>{{ course.code }}</td>
+            <td>{{ course.description }}</td>
+            <td>{{ course.sessions_offered }}</td>
+            <td>{{ course.lectureuser.first_name }} {{ course.lectureuser.second_name }}</td>
+            <td>
+                <form method="post" action="{% url 'module_register' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="course_id" value="{{ course.id }}">
+                    <button type="submit" name="action" value="register" class="btn btn-success btn-sm">Register</button>
+                    <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">No available modules.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Registered Modules</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Classroom</th>
+            <th>Lecture</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registration in registered_modules %}
+        <tr>
+            <td>{{ registration.course.name }}</td>
+            <td>{{ registration.course.code }}</td>
+            <td>
+                {% with class_sessions=registration.course.class_sessions.all %}
+                    {% if class_sessions %}
+                        {% for session in class_sessions %}
+                            {{ session.classroom.name }}<br>
+                        {% endfor %}
+                    {% else %}
+                        No classroom assigned yet.
+                    {% endif %}
+                {% endwith %}
+            </td>
+            <td>{{ registration.course.lectureuser.first_name }} {{ registration.course.lectureuser.second_name }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No modules registered yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/student/footer.html' %}
+{% endblock %}
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}

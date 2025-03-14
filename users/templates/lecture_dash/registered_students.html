@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Registered Students - {{ course.name }}{% endblock %}
+
+{% block header %}
+    {% include 'partials/lecture/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/lecture/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/lecture/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<h2>Registered Students for {{ course.name }}</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Second Name</th>
+            <th>Email</th>
+            <th>Session</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registration in registered_students %}
+        <tr>
+            <td>{{ registration.student.first_name }}</td>
+            <td>{{ registration.student.second_name }}</td>
+            <td>{{ registration.student.email }}</td>
+            <td>{{ registration.student.session }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No students registered yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'lectureuser_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/lecture/footer.html' %}
+{% endblock %}
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}

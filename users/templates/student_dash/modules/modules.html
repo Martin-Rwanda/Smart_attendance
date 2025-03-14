@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Modules Registration{% endblock %}
+
+{% block header %}
+    {% include 'partials/student/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/student/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/student/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<h2>Registered Modules</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Classroom</th>
+            <th>Lecture</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registration in registered_modules %}
+        <tr>
+            <td>{{ registration.course.name }}</td>
+            <td>{{ registration.course.code }}</td>
+            <td>
+                {% with class_sessions=registration.course.class_sessions.all %}
+                    {% if class_sessions %}
+                        {% for session in class_sessions %}
+                            {{ session.classroom.name }}<br>
+                        {% endfor %}
+                    {% else %}
+                        No classroom assigned yet.
+                    {% endif %}
+                {% endwith %}
+            </td>
+            <td>{{ registration.course.lectureuser.first_name }} {{ registration.course.lectureuser.second_name }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No modules registered yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/student/footer.html' %}
+{% endblock %}
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}

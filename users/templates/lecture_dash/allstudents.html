@@ -1,0 +1,63 @@
+{% extends 'base.html' %} 
+{% block title %}Lecturer Dashboard{% endblock %}
+
+{% block header %}
+    {% include 'partials/lecture/header.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/lecture/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'partials/lecture/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>All Registered Students</h2>
+
+    {% for course, students in course_students.items %}
+    <div class="course-section">
+        <h3>{{ course.name }}</h3>  <!-- Course title as table header -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>First Name</th>
+                    <th>Second Name</th>
+                    <th>Email</th>
+                    <th>Session</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registration in students %}
+                <tr>
+                    <td>{{ registration.student.student_id }}</td> 
+                    <td>{{ registration.student.first_name }}</td>
+                    <td>{{ registration.student.second_name }}</td>
+                    <td>{{ registration.student.email }}</td>
+                    <td>{{ registration.student.session }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No students registered for this course.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>  <!-- Add a horizontal line between courses -->
+    {% empty %}
+    <p>No courses found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'partials/lecture/footer.html' %}
+{% endblock %}
+
+{% block script %}
+    {% include 'partials/scripts.html' %}
+{% endblock %}
