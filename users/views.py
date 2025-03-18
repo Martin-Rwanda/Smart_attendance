@@ -8,6 +8,14 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from users.models import LectureUser  
 from attendance.models import Course, ModuleRegistration
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+
+
+SERIAL_PORT = "COM3"  # Update with the correct port
+BAUD_RATE = 9600
 
 def logout_user(request):
     logout(request)
@@ -185,3 +193,23 @@ def get_appropriate_redirect(user):
         return 'lectureuser_dashboard'
     else:
         return 'landing_page'
+    
+
+
+
+@csrf_exempt
+def get_fingerprint(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            fingerprint_id = data.get("student_id")
+            names = data.get("names")
+            fingerprint_data = data.get("fingerprint_data")
+
+            # Save the fingerprint data to the database or process it
+            print(f"Received fingerprint data: {fingerprint_id}, {names}, {fingerprint_data}")
+
+            return JsonResponse({"status": "success", "fingerprint_id": fingerprint_id})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)

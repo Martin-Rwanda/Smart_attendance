@@ -71,8 +71,13 @@
 
         <div class="form-group" id="student-fields" style="display:none;">
             <label for="id_fingerprint">Fingerprint</label>
-            {{ form.fingerprint }}
-        </div>
+            <div class="input-group">
+                <input type="text" name="fingerprint" maxlength="255" id="id_fingerprint" class="form-control" placeholder="Enter fingerprint">
+                <div class="input-group-append">
+                    <button class="btn btn-info" type="button" id="capture_fingerprint">Capture Fingerprint</button>
+                </div>
+            </div>
+            
 
         <!-- Admin-specific fields -->
         <div class="form-group" id="admin-fields" style="display:none;">

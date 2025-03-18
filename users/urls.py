@@ -14,5 +14,5 @@ urlpatterns = [
     path('lecturer/dashboard/', views.lectureuser_dashboard, name='lectureuser_dashboard'),
     path('lecturer/course/<int:course_id>/students/', views.registered_students, name='registered_students'),
     path('lecturer/all-students/', views.all_registered_students, name='all_registered_students'),
-
+    path('get_fingerprint/', views.get_fingerprint, name='get_fingerprint'),
 ]
