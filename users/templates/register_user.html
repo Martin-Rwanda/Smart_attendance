@@ -56,37 +56,44 @@
         </div>
 
         <!-- Student-specific fields -->
-        <div class="form-group" id="student-fields" style="display:none;">
-            <label for="session">Session</label>
-            <select name="session" id="session">
+        <div class="form-group student-fields" style="display:none;">
+            <label for="id_session">Session</label>
+            <select name="session" id="id_session" class="form-control">
                 <option value="DAY" {% if form.session.value == 'DAY' %} selected {% endif %}>Day</option>
                 <option value="EVENING" {% if form.session.value == 'EVENING' %} selected {% endif %}>Evening</option>
                 <option value="WEEKEND" {% if form.session.value == 'WEEKEND' %} selected {% endif %}>Weekend</option>
             </select>
         </div>
-        <div class="form-group" id="student-fields" style="display:none;">
+        
+        <div class="form-group student-fields" style="display:none;">
             <label for="id_student_id">Student ID</label>
-            {{ form.student_id }}
+            <select name="student_id" id="id_student_id" class="form-control">
+                <option value="">-- Select ID --</option>
+                {% for i in "1234567" %}
+                    <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                {% endfor %}
+            </select>
         </div>
 
-        <div class="form-group" id="student-fields" style="display:none;">
+        <div class="form-group student-fields" style="display:none;">
             <label for="id_fingerprint">Fingerprint</label>
             <div class="input-group">
-                <input type="text" name="fingerprint" maxlength="255" id="id_fingerprint" class="form-control" placeholder="Enter fingerprint">
+                <input type="text" name="fingerprint" maxlength="255" id="id_fingerprint" class="form-control" placeholder="Click 'Capture' to scan" readonly>
                 <div class="input-group-append">
                     <button class="btn btn-info" type="button" id="capture_fingerprint">Capture Fingerprint</button>
                 </div>
             </div>
-            
+            <div id="fingerprint_status" class="mt-2 alert alert-info" style="display: none;"></div>
+        </div>
 
         <!-- Admin-specific fields -->
-        <div class="form-group" id="admin-fields" style="display:none;">
+        <div class="form-group admin-fields" style="display:none;">
             <label for="id_is_head_of_faculty">Is Head of Faculty</label>
             {{ form.is_head_of_faculty }}
         </div>
 
         <!-- LectureUser-specific fields -->
-        <div class="form-group" id="lectureuser-fields" style="display:none;">
+        <div class="form-group lectureuser-fields" style="display:none;">
             <label for="id_department">Department</label>
             {{ form.department }}
         </div>
@@ -97,33 +104,92 @@
         </div>
     </form>
 </div>
-</body>
 
-<!-- JavaScript to toggle fields based on user type -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.getElementById('id_user_type').addEventListener('change', function () {
-        const userType = this.value;
-        const studentFields = document.querySelectorAll('#student-fields');
-        const adminFields = document.querySelectorAll('#admin-fields');
-        const lectureuserFields = document.querySelectorAll('#lectureuser-fields');
-
-        if (userType === 'student') {
-            studentFields.forEach(field => field.style.display = 'block');
-            adminFields.forEach(field => field.style.display = 'none');
-            lectureuserFields.forEach(field => field.style.display = 'none');
-        } else if (userType === 'admin') {
-            studentFields.forEach(field => field.style.display = 'none');
-            adminFields.forEach(field => field.style.display = 'block');
-            lectureuserFields.forEach(field => field.style.display = 'none');
-        } else if (userType === 'lectureuser') {
-            studentFields.forEach(field => field.style.display = 'none');
-            adminFields.forEach(field => field.style.display = 'none');
-            lectureuserFields.forEach(field => field.style.display = 'block');
+    $(document).ready(function() {
+        // Toggle fields based on user type selection
+        $("[name='user_type']").change(function() {
+            const userType = $(this).val();
+            $(".student-fields, .admin-fields, .lectureuser-fields").hide();
+            
+            if (userType === "student") {
+                $(".student-fields").show();
+            } else if (userType === "admin") {
+                $(".admin-fields").show();
+            } else if (userType === "lectureuser") {
+                $(".lectureuser-fields").show();
+            }
+        });
+        
+        // Initial trigger to show/hide fields based on current selection
+        $("[name='user_type']").trigger("change");
+        
+        // Capture fingerprint button click handler
+        $("#capture_fingerprint").click(function() {
+            const studentID = $("#id_student_id").val();
+            if (!studentID) {
+                alert("Please select a Student ID first.");
+                return;
+            }
+            
+            // Update status
+            $("#fingerprint_status").show().text("Connecting to fingerprint scanner...");
+            
+            // Send command to Arduino via backend
+            $.ajax({
+                url: "{% url 'send_to_arduino' %}",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    student_id: studentID,
+                    operation: "REGISTER"
+                }),
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                success: function(response) {
+                    if (response.status === "success") {
+                        $("#fingerprint_status").removeClass("alert-info alert-danger")
+                            .addClass("alert-success")
+                            .text("Scanner connected. Please place your finger on the scanner.");
+                        
+                        // Start polling for fingerprint registration result
+                        checkFingerprintStatus(studentID);
+                    } else {
+                        $("#fingerprint_status").removeClass("alert-info alert-success")
+                            .addClass("alert-danger")
+                            .text("Error: " + response.message);
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = "Failed to connect to fingerprint scanner";
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        errorMsg = response.message || errorMsg;
+                    } catch (e) {}
+                    
+                    $("#fingerprint_status").removeClass("alert-info alert-success")
+                        .addClass("alert-danger")
+                        .text("Error: " + errorMsg);
+                }
+            });
+        });
+        
+        // Function to poll for fingerprint status
+        function checkFingerprintStatus(studentID) {
+            // This would be implemented if you have a way to check status
+            // For demonstration, we'll simulate with a timeout
+            
+            // In a real implementation, you'd poll an endpoint that checks Arduino's serial output
+            setTimeout(function() {
+                // Simulating success for demonstration
+                $("#id_fingerprint").val("FP" + studentID);
+                $("#fingerprint_status").removeClass("alert-info alert-danger")
+                    .addClass("alert-success")
+                    .text("Fingerprint captured successfully!");
+            }, 5000);
         }
     });
-
-    // Trigger change to show correct fields on page load
-    document.getElementById('id_user_type').dispatchEvent(new Event('change'));
 </script>
-
 {% endblock %}

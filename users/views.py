@@ -10,6 +10,8 @@ from users.models import LectureUser
 from attendance.models import Course, ModuleRegistration
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import serial
+import time
 import json
 
 
@@ -213,3 +215,94 @@ def get_fingerprint(request):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
     return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def get_fingerprint(request):
+    if request.method == "POST":
+        try:
+            # For AJAX requests from the form
+            data = json.loads(request.body)
+            student_id = data.get("student_id")
+            fingerprint_data = data.get("fingerprint_data", "")
+            
+            # Log the received data
+            print(f"Received fingerprint request for student ID: {student_id}")
+            
+            # Find the student with this ID
+            try:
+                student = Student.objects.get(student_id=student_id)
+                student.fingerprint = fingerprint_data
+                student.save()
+                return JsonResponse({
+                    "status": "success", 
+                    "fingerprint_id": fingerprint_data,
+                    "message": "Fingerprint saved successfully"
+                })
+            except Student.DoesNotExist:
+                return JsonResponse({
+                    "status": "error", 
+                    "message": f"No student found with ID {student_id}"
+                }, status=404)
+                
+        except json.JSONDecodeError:
+            return JsonResponse({
+                "status": "error", 
+                "message": "Invalid JSON data"
+            }, status=400)
+        except Exception as e:
+            return JsonResponse({
+                "status": "error", 
+                "message": str(e)
+            }, status=500)
+    
+    return JsonResponse({
+        "status": "error", 
+        "message": "Invalid request method"
+    }, status=405)
+
+@csrf_exempt
+def send_to_arduino(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            student_id = data.get("student_id")
+            operation = data.get("operation", "REGISTER")  # Default to registration
+            
+            if not student_id:
+                return JsonResponse({"status": "error", "message": "Invalid ID"}, status=400)
+            
+            try:
+                # Try to open serial connection
+                arduino = serial.Serial("COM3", 9600, timeout=1)
+                # Send command to Arduino
+                command = f"{operation}:{student_id}\n"
+                arduino.write(command.encode())
+                
+                # Wait for response (optional)
+                time.sleep(0.5)
+                response = ""
+                if arduino.in_waiting > 0:
+                    response = arduino.readline().decode().strip()
+                
+                arduino.close()
+                return JsonResponse({
+                    "status": "success", 
+                    "message": f"Sent {operation} command for ID {student_id} to Arduino",
+                    "response": response
+                })
+            except serial.SerialException as e:
+                return JsonResponse({
+                    "status": "error", 
+                    "message": f"Serial connection error: {str(e)}"
+                }, status=500)
+                
+        except Exception as e:
+            return JsonResponse({
+                "status": "error", 
+                "message": str(e)
+            }, status=500)
+    
+    return JsonResponse({
+        "status": "error", 
+        "message": "Invalid request method"
+    }, status=405)

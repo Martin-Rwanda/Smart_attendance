@@ -15,4 +15,5 @@ urlpatterns = [
     path('lecturer/course/<int:course_id>/students/', views.registered_students, name='registered_students'),
     path('lecturer/all-students/', views.all_registered_students, name='all_registered_students'),
     path('get_fingerprint/', views.get_fingerprint, name='get_fingerprint'),
+    path('send_to_arduino/', views.send_to_arduino, name='send_to_arduino'),
 ]

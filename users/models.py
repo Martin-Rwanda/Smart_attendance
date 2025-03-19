@@ -26,7 +26,7 @@ class BaseUser(AbstractBaseUser):
     telephone = models.CharField(max_length=15)
     password = models.CharField(max_length=255)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'email' 
     REQUIRED_FIELDS = ['first_name', 'second_name', 'telephone']
 
     objects = CustomUserManager()
